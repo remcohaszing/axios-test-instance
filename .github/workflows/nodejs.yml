@@ -1,17 +1,27 @@
 name: Node CI
 
-on: 
+on:
   - push
 
 jobs:
-  build:
-
+  eslint:
     runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Use Node.js 12
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - name: ESLint
+        run: |
+          npm ci
+          npm run eslint .
 
+  jest:
+    runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [8.x, 10.x, 12.x]
-
+        node-version: [8, 10, 12]
     steps:
       - uses: actions/checkout@v1
       - name: Use Node.js ${{ matrix.node-version }}
@@ -22,5 +32,29 @@ jobs:
         run: |
           npm ci
           npm test
-        env:
-          CI: true
+
+  prettier:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Use Node.js 12
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - name: Prettier
+        run: |
+          npm ci
+          npm run Prettier
+
+  tsc:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Use Node.js 12
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - name: TSC
+        run: |
+          npm ci
+          npx tsc
