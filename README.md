@@ -2,6 +2,8 @@
 
 > Test NodeJS backends using Axios
 
+[![Build status](https://github.com/remcohaszing/axios-test-instance/workflows/NodeJS/badge.svg)](https://github.com/remcohaszing/axios-test-instance/actions)
+
 ## Installation
 
 ```sh

@@ -1,6 +1,7 @@
-name: Node CI
+name: NodeJS
 
 on:
+  - pull_request
   - push
 
 jobs:
