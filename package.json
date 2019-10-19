@@ -20,6 +20,10 @@
     "test",
     "testing"
   ],
+  "files": [
+    "index.js",
+    "index.d.ts"
+  ],
   "scripts": {
     "eslint": "eslint --max-warnings 0 --ext js,ts,tsx",
     "prettier": "prettier '**.{json,yaml,yml}'",
