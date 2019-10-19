@@ -14,8 +14,8 @@ jobs:
           node-version: 12
       - name: ESLint
         run: |
-          npm ci
-          npm run eslint .
+          yarn --frozen-lockfile
+          yarn eslint .
 
   jest:
     runs-on: ubuntu-latest
@@ -28,10 +28,10 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - name: npm test
+      - name: Test
         run: |
-          npm ci
-          npm test
+          yarn --frozen-lockfile
+          yarn test
 
   prettier:
     runs-on: ubuntu-latest
@@ -43,8 +43,8 @@ jobs:
           node-version: 12
       - name: Prettier
         run: |
-          npm ci
-          npm run Prettier
+          yarn --frozen-lockfile
+          yarn prettier
 
   tsc:
     runs-on: ubuntu-latest
@@ -56,5 +56,5 @@ jobs:
           node-version: 12
       - name: TSC
         run: |
-          npm ci
-          npx tsc
+          yarn --frozen-lockfile
+          yarn tsc
