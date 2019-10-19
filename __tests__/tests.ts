@@ -10,6 +10,10 @@ app.get('/', (req, res) => {
   res.end();
 });
 
+afterEach(() => {
+  jest.restoreAllMocks();
+});
+
 test('error response shouldn’t throw', async () => {
   const instance = await createInstance(app);
   const { status } = await instance.get('/');
