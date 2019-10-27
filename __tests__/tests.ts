@@ -32,7 +32,7 @@ test('patched baseURL should be restored', async () => {
   const originalInstance = axios.create({ baseURL: '/test' });
   const testInstance = await patchInstance(originalInstance, app);
   expect(testInstance).toBe(originalInstance);
-  expect(testInstance.defaults.baseURL).toMatch(/^http:\/\/localhost:\d+\/test$/);
+  expect(testInstance.defaults.baseURL).toMatch(/^http:\/\/127.0.0.1:\d+\/test$/);
   await testInstance.close();
   expect(testInstance.defaults.baseURL).toBe('/test');
 });
@@ -40,7 +40,7 @@ test('patched baseURL should be restored', async () => {
 it('should reject close if closing the server fails', async () => {
   const error = new Error('stub');
   const server = {
-    listen: (options: http.ServerOptions, cb: () => void): void => cb(),
+    listen: (port: number, host: string, cb: () => void): void => cb(),
     address: (): Partial<AddressInfo> => ({ port: 1337 }),
     close(cb: (error?: Error) => void): void {
       cb(error);

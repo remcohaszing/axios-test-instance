@@ -1,7 +1,7 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 import { createServer, RequestListener } from 'http';
 import { URL } from 'url';
-import { AddressInfo, ListenOptions } from 'net';
+import { AddressInfo } from 'net';
 
 /**
  * An Axios instance that is bound to a test server.
@@ -55,16 +55,15 @@ interface KoaLike {
 export async function patchInstance(
   instance: AxiosInstance,
   app: RequestListener | KoaLike,
-  serverOptions?: ListenOptions,
 ): Promise<AxiosTestInstance> {
   const server = createServer(app instanceof Function ? app : app.callback());
   await new Promise(resolve => {
-    server.listen(serverOptions, resolve);
+    server.listen(undefined, '127.0.0.1', resolve);
   });
-  const { port } = server.address() as AddressInfo;
+  const { address, port } = server.address() as AddressInfo;
   const inst = instance as AxiosTestInstance;
   const { baseURL } = instance.defaults;
-  inst.defaults.baseURL = `${new URL(baseURL || '', `http://localhost:${port}`)}`;
+  inst.defaults.baseURL = `${new URL(baseURL || '', `http://${address}:${port}`)}`;
   inst.close = (): Promise<void> => {
     return new Promise((resolve, reject) => {
       inst.defaults.baseURL = baseURL;
@@ -110,7 +109,6 @@ export async function patchInstance(
 export async function createInstance(
   app: RequestListener | KoaLike,
   axiosConfig?: AxiosRequestConfig,
-  serverOptions?: ListenOptions,
 ): Promise<AxiosTestInstance> {
   return patchInstance(
     axios.create({
@@ -118,6 +116,5 @@ export async function createInstance(
       ...axiosConfig,
     }),
     app,
-    serverOptions,
   );
 }
