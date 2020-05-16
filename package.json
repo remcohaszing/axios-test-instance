@@ -1,6 +1,6 @@
 {
   "name": "axios-test-instance",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "description": "Test NodeJS backends using Axios",
   "author": "Remco Haszing <remcohaszing@gmail.com>",
   "license": "MIT",
