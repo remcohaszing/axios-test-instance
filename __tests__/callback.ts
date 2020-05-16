@@ -1,5 +1,5 @@
 import { RequestListener } from 'http';
-import { request, setTestApp } from '..';
+import { request, setTestApp } from 'axios-test-instance';
 
 const app: RequestListener = (req, res) => {
   res.setHeader('content-type', 'application/json; charset=utf-8');

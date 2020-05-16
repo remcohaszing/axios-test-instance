@@ -1,9 +1,13 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
     "lib": ["esnext"],
     "module": "commonjs",
     "noEmit": true,
     "noImplicitAny": true,
+    "paths": {
+      "axios-test-instance": ["index.ts"]
+    },
     "strict": true,
     "target": "esnext"
   }
