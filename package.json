@@ -16,6 +16,7 @@
     "axios",
     "express",
     "http",
+    "jest",
     "koa",
     "test",
     "testing"
