@@ -3,6 +3,7 @@
 > Test NodeJS backends using Axios
 
 [![Build status](https://github.com/remcohaszing/axios-test-instance/workflows/NodeJS/badge.svg)](https://github.com/remcohaszing/axios-test-instance/actions)
+[![Codecov](https://codecov.io/gh/remcohaszing/axios-test-instance/branch/master/graph/badge.svg)](https://codecov.io/gh/remcohaszing/axios-test-instance)
 [![Prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://prettier.io)
 [![Jest](https://jestjs.io/img/jest-badge.svg)](https://jestjs.io)
 
