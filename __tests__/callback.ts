@@ -1,5 +1,5 @@
 import { RequestListener } from 'http';
-import { request, setTestApp, closeTestApp } from '..';
+import { request, setTestApp } from '..';
 
 const app: RequestListener = (req, res) => {
   res.setHeader('content-type', 'application/json; charset=utf-8');
@@ -9,8 +9,6 @@ const app: RequestListener = (req, res) => {
 beforeEach(async () => {
   await setTestApp(app);
 });
-
-afterEach(closeTestApp);
 
 test('http request listener', async () => {
   const { data, headers, status } = await request.get('/');

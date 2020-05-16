@@ -139,17 +139,6 @@ export const request: AxiosTestInstance = Object.assign(axios.create(), {
 });
 
 /**
- * Set the test app for the default axios test instance.
- *
- * @see request for more details
- *
- * @param app An http callback function or a Koa app instance.
- */
-export async function setTestApp(app: RequestListener | KoaLike): Promise<AxiosTestInstance> {
-  return patchInstance(request, app);
-}
-
-/**
  * Close the default axios test instance.
  *
  * This can be passed directly to the `afterEach()` function of the testing framework.
@@ -158,4 +147,20 @@ export async function setTestApp(app: RequestListener | KoaLike): Promise<AxiosT
  */
 export async function closeTestApp(): Promise<void> {
   return request.close();
+}
+
+/**
+ * Set the test app for the default axios test instance.
+ *
+ * @see request for more details
+ *
+ * @param app An http callback function or a Koa app instance.
+ */
+export async function setTestApp(app: RequestListener | KoaLike): Promise<AxiosTestInstance> {
+  await closeTestApp();
+  return patchInstance(request, app);
+}
+
+if (typeof afterAll !== 'undefined') {
+  afterAll(closeTestApp);
 }

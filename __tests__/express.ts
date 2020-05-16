@@ -1,5 +1,5 @@
 import * as express from 'express';
-import { request, setTestApp, closeTestApp } from '..';
+import { request, setTestApp } from '..';
 
 const app = express();
 app.get('/', async (req, res) => {
@@ -9,8 +9,6 @@ app.get('/', async (req, res) => {
 beforeEach(async () => {
   await setTestApp(app);
 });
-
-afterEach(closeTestApp);
 
 test('express app', async () => {
   const { data, headers, status } = await request.get('/');

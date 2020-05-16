@@ -56,3 +56,11 @@ test('closing default instance shouldn’t crash', async () => {
   await expect(closeTestApp()).resolves.toBeUndefined();
   await expect(closeTestApp()).resolves.toBeUndefined();
 });
+
+test('afterAll is not defined', async () => {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+  // @ts-ignore
+  delete global.afterAll;
+  jest.resetModuleRegistry();
+  await expect(import('..')).resolves.toBeDefined();
+});

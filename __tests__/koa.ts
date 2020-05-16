@@ -1,5 +1,5 @@
 import * as Koa from 'koa';
-import { request, setTestApp, closeTestApp } from '..';
+import { request, setTestApp } from '..';
 
 const app = new Koa();
 app.use(async (ctx) => {
@@ -9,8 +9,6 @@ app.use(async (ctx) => {
 beforeEach(async () => {
   await setTestApp(app);
 });
-
-afterEach(closeTestApp);
 
 test('koa app', async () => {
   const { data, headers, status } = await request.get('/');
