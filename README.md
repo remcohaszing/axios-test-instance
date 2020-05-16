@@ -22,15 +22,13 @@ npm install axios-test-instance
 3. Close the test instance in the `afterEach` block.
 
 ```js
-import { request, setTestApp, closeTestApp } from 'axios-test-instance';
+import { request, setTestApp } from 'axios-test-instance';
 
 import app from './app';
 
 beforeEach(async () => {
   await setTestApp(app);
 });
-
-afterEach(closeTestApp);
 ```
 
 The method above works with Jest, but it might not work with your testing framework. For this use
