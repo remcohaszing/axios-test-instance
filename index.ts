@@ -57,18 +57,18 @@ export async function patchInstance(
   app: RequestListener | KoaLike,
 ): Promise<AxiosTestInstance> {
   const server = createServer(app instanceof Function ? app : app.callback());
-  await new Promise(resolve => {
+  await new Promise((resolve) => {
     server.listen(undefined, '127.0.0.1', resolve);
   });
   const { address, port } = server.address() as AddressInfo;
   const inst = instance as AxiosTestInstance;
   const { baseURL } = instance.defaults;
   inst.defaults.baseURL = `${new URL(baseURL || '', `http://${address}:${port}`)}`;
-  inst.close = (): Promise<void> => {
-    return new Promise((resolve, reject) => {
+  inst.close = (): Promise<void> =>
+    new Promise((resolve, reject) => {
       inst.defaults.baseURL = baseURL;
-      inst.close = async (): Promise<void> => {};
-      server.close(error => {
+      inst.close = (): Promise<void> => Promise.resolve();
+      server.close((error) => {
         if (error) {
           reject(error);
         } else {
@@ -76,7 +76,6 @@ export async function patchInstance(
         }
       });
     });
-  };
   return inst;
 }
 

@@ -62,4 +62,4 @@ For usages examples, have a look at our test cases:
 - [Koa example](__tests__/koa.ts)
 - [Express example](__tests__/express.ts)
 - [HTTP callback example](__tests__/callback.ts)
-- [End to end example](__tests__/callback.ts)
+- [End to end example](__tests__/e2e.ts)

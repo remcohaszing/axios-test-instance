@@ -2,7 +2,7 @@ import * as Koa from 'koa';
 import { createInstance, AxiosTestInstance } from '..';
 
 const app = new Koa();
-app.use(async ctx => {
+app.use(async (ctx) => {
   ctx.body = { hello: 'world' };
 });
 
