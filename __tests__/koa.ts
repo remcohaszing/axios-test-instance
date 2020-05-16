@@ -1,5 +1,5 @@
-import * as Koa from 'koa';
 import { request, setTestApp } from 'axios-test-instance';
+import * as Koa from 'koa';
 
 const app = new Koa();
 app.use(async (ctx) => {

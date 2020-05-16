@@ -1,7 +1,7 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 import { createServer, RequestListener } from 'http';
-import { URL } from 'url';
 import { AddressInfo } from 'net';
+import { URL } from 'url';
 
 /**
  * An Axios instance that is bound to a test server.

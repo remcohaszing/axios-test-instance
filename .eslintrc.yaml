@@ -3,11 +3,14 @@ extends:
   - plugin:@typescript-eslint/recommended-requiring-type-checking
   - plugin:prettier/recommended
   - prettier/@typescript-eslint
+plugins:
+  - simple-import-sort
 parserOptions:
   project: tsconfig.json
 rules:
   '@typescript-eslint/require-await': off
   '@typescript-eslint/no-empty-function': off
+  'simple-import-sort/sort': error
 overrides:
   - files:
       - '*.ts'

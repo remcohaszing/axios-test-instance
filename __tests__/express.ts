@@ -1,5 +1,5 @@
-import * as express from 'express';
 import { request, setTestApp } from 'axios-test-instance';
+import * as express from 'express';
 
 const app = express();
 app.get('/', async (req, res) => {

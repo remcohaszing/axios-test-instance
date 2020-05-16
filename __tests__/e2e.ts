@@ -1,7 +1,7 @@
-import * as express from 'express';
-import * as bodyParser from 'body-parser';
 import axios from 'axios';
-import { patchInstance, AxiosTestInstance } from 'axios-test-instance';
+import { AxiosTestInstance, patchInstance } from 'axios-test-instance';
+import * as bodyParser from 'body-parser';
+import * as express from 'express';
 
 // ——— Shared types ———
 

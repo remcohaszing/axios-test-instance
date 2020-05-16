@@ -1,7 +1,7 @@
 import axios from 'axios';
+import { closeTestApp, createInstance, patchInstance } from 'axios-test-instance';
 import * as express from 'express';
 import * as http from 'http';
-import { closeTestApp, createInstance, patchInstance } from 'axios-test-instance';
 import { AddressInfo } from 'net';
 
 const app = express();
