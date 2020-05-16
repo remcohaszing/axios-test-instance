@@ -30,7 +30,7 @@ jobs:
       - name: Test
         run: |
           yarn --frozen-lockfile
-          yarn test
+          yarn test --coverage
       - uses: codecov/codecov-action@v1
         if: ${{ matrix.node-version == 14 }}
 
