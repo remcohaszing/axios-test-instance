@@ -117,3 +117,45 @@ export async function createInstance(
     app,
   );
 }
+
+/**
+ * A default axios test instance.
+ *
+ * Don’t forget to close the test instance after the test!
+ *
+ * @example
+ * import { closeTestApp, request, setTestApp } from 'axios-test-instance';
+ *
+ * import app from './app';
+ *
+ * beforeEach(async () => {
+ *   await setTestApp(app);
+ * });
+ *
+ * afterEach(closeTestApp);
+ */
+export const request: AxiosTestInstance = Object.assign(axios.create(), {
+  close: () => Promise.resolve(),
+});
+
+/**
+ * Set the test app for the default axios test instance.
+ *
+ * @see request for more details
+ *
+ * @param app An http callback function or a Koa app instance.
+ */
+export async function setTestApp(app: RequestListener | KoaLike): Promise<AxiosTestInstance> {
+  return patchInstance(request, app);
+}
+
+/**
+ * Close the default axios test instance.
+ *
+ * This can be passed directly to the `afterEach()` function of the testing framework.
+ *
+ * @see request for more details
+ */
+export async function closeTestApp(): Promise<void> {
+  return request.close();
+}

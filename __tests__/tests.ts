@@ -1,7 +1,7 @@
 import axios from 'axios';
 import * as express from 'express';
 import * as http from 'http';
-import { createInstance, patchInstance } from '..';
+import { closeTestApp, createInstance, patchInstance } from '..';
 import { AddressInfo } from 'net';
 
 const app = express();
@@ -50,4 +50,9 @@ it('should reject close if closing the server fails', async () => {
   jest.spyOn(http, 'createServer').mockReturnValue(server as any);
   const instance = await createInstance(() => {});
   await expect(instance.close()).rejects.toThrowError(error);
+});
+
+test('closing default instance shouldn’t crash', async () => {
+  await expect(closeTestApp()).resolves.toBeUndefined();
+  await expect(closeTestApp()).resolves.toBeUndefined();
 });

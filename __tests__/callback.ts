@@ -1,23 +1,19 @@
 import { RequestListener } from 'http';
-import { createInstance, AxiosTestInstance } from '..';
+import { request, setTestApp, closeTestApp } from '..';
 
 const app: RequestListener = (req, res) => {
   res.setHeader('content-type', 'application/json; charset=utf-8');
   res.end(JSON.stringify({ hello: 'world' }));
 };
 
-let instance: AxiosTestInstance;
-
 beforeEach(async () => {
-  instance = await createInstance(app);
+  await setTestApp(app);
 });
 
-afterEach(async () => {
-  await instance.close();
-});
+afterEach(closeTestApp);
 
 test('http request listener', async () => {
-  const { data, headers, status } = await instance.get('/');
+  const { data, headers, status } = await request.get('/');
   expect(status).toBe(200);
   expect(headers).toMatchObject({ 'content-type': 'application/json; charset=utf-8' });
   expect(data).toStrictEqual({ hello: 'world' });

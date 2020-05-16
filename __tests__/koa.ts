@@ -1,23 +1,19 @@
 import * as Koa from 'koa';
-import { createInstance, AxiosTestInstance } from '..';
+import { request, setTestApp, closeTestApp } from '..';
 
 const app = new Koa();
 app.use(async (ctx) => {
   ctx.body = { hello: 'world' };
 });
 
-let instance: AxiosTestInstance;
-
 beforeEach(async () => {
-  instance = await createInstance(app);
+  await setTestApp(app);
 });
 
-afterEach(async () => {
-  await instance.close();
-});
+afterEach(closeTestApp);
 
 test('koa app', async () => {
-  const { data, headers, status } = await instance.get('/');
+  const { data, headers, status } = await request.get('/');
   expect(status).toBe(200);
   expect(headers).toMatchObject({ 'content-type': 'application/json; charset=utf-8' });
   expect(data).toStrictEqual({ hello: 'world' });

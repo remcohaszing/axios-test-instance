@@ -17,9 +17,24 @@ npm install axios-test-instance
 ## Usage
 
 1. Create an Axios test instance by passing your app, which may be a Koa app, an Express app, or an
-   HTTP request handler, to `createInstance` in a `beforeEach` block.
-2. Write tests using this test instance.
+   HTTP request handler, to `setTestApp` in a `beforeEach` block.
+2. Import `request` and use it in tests.
 3. Close the test instance in the `afterEach` block.
+
+```js
+import { request, setTestApp, closeTestApp } from 'axios-test-instance';
+
+import app from './app';
+
+beforeEach(async () => {
+  await setTestApp(app);
+});
+
+afterEach(closeTestApp);
+```
+
+The method above works with Jest, but it might not work with your testing framework. For this use
+case, a test instance can be created manually using `createInstance`.
 
 ```js
 import { createInstance } from 'axios-test-instance';
