@@ -134,9 +134,10 @@ export async function createInstance(
  *
  * afterEach(closeTestApp);
  */
-export const request: AxiosTestInstance = Object.assign(axios.create(), {
-  close: () => Promise.resolve(),
-});
+export const request: AxiosTestInstance = Object.assign(
+  axios.create({ validateStatus: () => true }),
+  { close: () => Promise.resolve() },
+);
 
 /**
  * Close the default axios test instance.
