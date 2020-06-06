@@ -1,5 +1,5 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
-import { createServer, RequestListener } from 'http';
+import { createServer, RequestListener, Server } from 'http';
 import { AddressInfo } from 'net';
 import { URL } from 'url';
 
@@ -13,6 +13,11 @@ export interface AxiosTestInstance extends AxiosInstance {
   close(): Promise<void>;
 }
 
+interface RunningServer {
+  uri: string;
+  close(): Promise<void>;
+}
+
 /**
  * An interface that matches the minimal functionality of a Koa app required to create a test instance.
  */
@@ -21,6 +26,51 @@ interface KoaLike {
    * Return a request handler callback for node’s native http server.
    */
   callback(): RequestListener;
+}
+
+interface FastifyLike {
+  close(): Promise<void>;
+  listen(callback: (err: Error, uri: string) => void): void;
+  server: Server;
+}
+
+type Application = FastifyLike | KoaLike | RequestListener;
+
+/**
+ * Start a server for the given application.
+ *
+ * @param app The application to start a server for
+ */
+async function startServer(app: Application): Promise<RunningServer> {
+  if ('server' in app && 'listen' in app && 'close' in app) {
+    return new Promise((resolve, reject) => {
+      app.listen((error, uri) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve({ uri, close: () => app.close() });
+        }
+      });
+    });
+  }
+  const server = createServer(app instanceof Function ? app : app.callback());
+  await new Promise((resolve) => {
+    server.listen(undefined, '127.0.0.1', resolve);
+  });
+  const { address, port } = server.address() as AddressInfo;
+  return {
+    uri: `http://${address}:${port}`,
+    close: (): Promise<void> =>
+      new Promise((resolve, reject) => {
+        server.close((error) => {
+          if (error) {
+            reject(error);
+          } else {
+            resolve();
+          }
+        });
+      }),
+  };
 }
 
 /**
@@ -54,28 +104,18 @@ interface KoaLike {
  */
 export async function patchInstance(
   instance: AxiosInstance,
-  app: RequestListener | KoaLike,
+  app: Application,
 ): Promise<AxiosTestInstance> {
-  const server = createServer(app instanceof Function ? app : app.callback());
-  await new Promise((resolve) => {
-    server.listen(undefined, '127.0.0.1', resolve);
-  });
-  const { address, port } = server.address() as AddressInfo;
+  const { close, uri } = await startServer(app);
   const inst = instance as AxiosTestInstance;
   const { baseURL } = instance.defaults;
-  inst.defaults.baseURL = `${new URL(baseURL || '', `http://${address}:${port}`)}`;
-  inst.close = (): Promise<void> =>
-    new Promise((resolve, reject) => {
-      inst.defaults.baseURL = baseURL;
-      inst.close = (): Promise<void> => Promise.resolve();
-      server.close((error) => {
-        if (error) {
-          reject(error);
-        } else {
-          resolve();
-        }
-      });
-    });
+  inst.defaults.baseURL = String(new URL(baseURL || '', uri));
+  inst.close = async (): Promise<void> => {
+    inst.defaults.baseURL = baseURL;
+    await close();
+    await new Promise((resolve) => setTimeout(() => resolve(), 3e3));
+    inst.close = (): Promise<void> => Promise.resolve();
+  };
   return inst;
 }
 
@@ -106,7 +146,7 @@ export async function patchInstance(
  * @returns An axios instance that is bound to a test server.
  */
 export async function createInstance(
-  app: RequestListener | KoaLike,
+  app: Application,
   axiosConfig?: AxiosRequestConfig,
 ): Promise<AxiosTestInstance> {
   return patchInstance(
@@ -157,7 +197,7 @@ export async function closeTestApp(): Promise<void> {
  *
  * @param app An http callback function or a Koa app instance.
  */
-export async function setTestApp(app: RequestListener | KoaLike): Promise<AxiosTestInstance> {
+export async function setTestApp(app: Application): Promise<AxiosTestInstance> {
   await closeTestApp();
   return patchInstance(request, app);
 }
