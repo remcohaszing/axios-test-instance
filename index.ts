@@ -135,7 +135,6 @@ export async function patchInstance(
   inst.close = async (): Promise<void> => {
     inst.defaults.baseURL = baseURL;
     await close();
-    await new Promise((resolve) => setTimeout(() => resolve(), 3e3));
     inst.close = (): Promise<void> => Promise.resolve();
   };
   return inst;
