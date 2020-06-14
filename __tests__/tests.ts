@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { closeTestApp, createInstance, patchInstance } from 'axios-test-instance';
+import { Application, closeTestApp, createInstance, patchInstance } from 'axios-test-instance';
 import * as express from 'express';
 import * as http from 'http';
 
@@ -34,6 +34,16 @@ test('patched baseURL should be restored', async () => {
   expect(testInstance.defaults.baseURL).toMatch(/^http:\/\/127.0.0.1:\d+\/test$/);
   await testInstance.close();
   expect(testInstance.defaults.baseURL).toBe('/test');
+});
+
+it('should reject close if startubg the fastify server fails', async () => {
+  const error = new Error('stub');
+  const app: Application = {
+    listen: (port, cb) => cb(error, ''),
+    server: (null as unknown) as http.Server,
+    close: (null as unknown) as () => Promise<void>,
+  };
+  await expect(createInstance(app)).rejects.toThrow(error);
 });
 
 it('should reject close if closing the server fails', async () => {
