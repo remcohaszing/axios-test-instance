@@ -1,12 +1,12 @@
 import { request, setTestApp } from 'axios-test-instance';
-import * as Fastify from 'fastify';
+import Fastify from 'fastify';
 
 const app = Fastify();
-app.get('/', (request, reply) => {
-  reply.send({ hello: 'world' });
+app.get('/', async (request, reply) => {
+  await reply.send({ hello: 'world' });
 });
 
-beforeEach(async () => {
+beforeAll(async () => {
   await setTestApp(app);
 });
 

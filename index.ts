@@ -29,8 +29,8 @@ interface KoaLike {
 }
 
 interface FastifyLike {
-  close(): Promise<void>;
-  listen(callback: (err: Error, uri: string) => void): void;
+  close(): PromiseLike<void>;
+  listen(port: number, callback: (err: Error, address: string) => void): void;
   server: Server;
 }
 
@@ -44,11 +44,16 @@ type Application = FastifyLike | KoaLike | RequestListener;
 async function startServer(app: Application): Promise<RunningServer> {
   if ('server' in app && 'listen' in app && 'close' in app) {
     return new Promise((resolve, reject) => {
-      app.listen((error, uri) => {
+      app.listen(0, (error, uri) => {
         if (error) {
           reject(error);
         } else {
-          resolve({ uri, close: () => app.close() });
+          resolve({
+            uri,
+            async close() {
+              await app.close();
+            },
+          });
         }
       });
     });
