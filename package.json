@@ -36,21 +36,21 @@
     "axios": "^0.19.2"
   },
   "devDependencies": {
-    "@types/jest": "^25.2.2",
+    "@types/jest": "^26.0.0",
     "@types/koa": "^2.11.3",
-    "@typescript-eslint/eslint-plugin": "^2.33.0",
-    "@typescript-eslint/parser": "^2.33.0",
+    "@typescript-eslint/eslint-plugin": "^3.2.0",
+    "@typescript-eslint/parser": "^3.2.0",
     "body-parser": "^1.19.0",
-    "eslint": "^7.0.0",
+    "eslint": "^7.2.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-prettier": "^3.1.3",
     "eslint-plugin-simple-import-sort": "^5.0.3",
     "express": "^4.17.1",
     "fastify": "^2.14.1",
     "jest": "^26.0.1",
-    "koa": "^2.11.0",
+    "koa": "^2.12.1",
     "prettier": "^2.0.5",
-    "ts-jest": "^26.0.0",
-    "typescript": "^3.9.2"
+    "ts-jest": "^26.1.0",
+    "typescript": "^3.9.5"
   }
 }

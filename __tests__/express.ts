@@ -2,7 +2,7 @@ import { request, setTestApp } from 'axios-test-instance';
 import * as express from 'express';
 
 const app = express();
-app.get('/', async (req, res) => {
+app.get('/', (req, res) => {
   res.json({ hello: 'world' });
 });
 

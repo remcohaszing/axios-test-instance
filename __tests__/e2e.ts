@@ -25,11 +25,10 @@ const users: Credentials[] = [
 
 const backend = express();
 backend.use(bodyParser.json());
-backend.post('/api/token', (req, res) => {
+backend.post<never, TokenResponse, Credentials>('/api/token', (req, res) => {
   const { password, username } = req.body;
   const user = users.find((u) => u.username === username && u.password === password);
   if (user) {
-    // eslint-disable-next-line @typescript-eslint/camelcase
     res.json({ access_token: 'super.secret.token' });
   } else {
     res.status(401);

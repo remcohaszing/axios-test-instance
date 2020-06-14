@@ -2,7 +2,6 @@ import axios from 'axios';
 import { closeTestApp, createInstance, patchInstance } from 'axios-test-instance';
 import * as express from 'express';
 import * as http from 'http';
-import { AddressInfo } from 'net';
 
 const app = express();
 app.get('/', (req, res) => {
@@ -40,9 +39,9 @@ test('patched baseURL should be restored', async () => {
 it('should reject close if closing the server fails', async () => {
   const error = new Error('stub');
   const server = {
-    listen: (port: number, host: string, cb: () => void): void => cb(),
-    address: (): Partial<AddressInfo> => ({ port: 1337 }),
-    close(cb: (error?: Error) => void): void {
+    listen: (port: number, host: string, cb: () => void) => cb(),
+    address: () => ({ port: 1337 }),
+    close(cb: (error?: Error) => void) {
       cb(error);
     },
   };
@@ -58,8 +57,6 @@ test('closing default instance shouldn’t crash', async () => {
 });
 
 test('afterAll is not defined', async () => {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-  // @ts-ignore
   delete global.afterAll;
   jest.resetModuleRegistry();
   await expect(import('..')).resolves.toBeDefined();

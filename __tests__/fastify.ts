@@ -2,7 +2,7 @@ import { request, setTestApp } from 'axios-test-instance';
 import * as Fastify from 'fastify';
 
 const app = Fastify();
-app.get('/', async (request, reply) => {
+app.get('/', (request, reply) => {
   reply.send({ hello: 'world' });
 });
 

@@ -8,8 +8,9 @@ plugins:
 parserOptions:
   project: tsconfig.json
 rules:
-  '@typescript-eslint/require-await': off
   '@typescript-eslint/no-empty-function': off
+  '@typescript-eslint/no-unsafe-assignment': off
+  '@typescript-eslint/no-unsafe-member-access': off
   'simple-import-sort/sort': error
 overrides:
   - files:
