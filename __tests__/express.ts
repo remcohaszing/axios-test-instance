@@ -6,7 +6,7 @@ app.get('/', (req, res) => {
   res.json({ hello: 'world' });
 });
 
-beforeEach(async () => {
+beforeAll(async () => {
   await setTestApp(app);
 });
 

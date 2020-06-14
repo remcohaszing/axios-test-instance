@@ -48,11 +48,11 @@ async function login(credentials: Credentials): Promise<void> {
 
 let instance: AxiosTestInstance;
 
-beforeEach(async () => {
+beforeAll(async () => {
   instance = await patchInstance(request, backend);
 });
 
-afterEach(async () => {
+afterAll(async () => {
   await instance.close();
 });
 

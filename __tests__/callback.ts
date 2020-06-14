@@ -6,7 +6,7 @@ const app: RequestListener = (req, res) => {
   res.end(JSON.stringify({ hello: 'world' }));
 };
 
-beforeEach(async () => {
+beforeAll(async () => {
   await setTestApp(app);
 });
 

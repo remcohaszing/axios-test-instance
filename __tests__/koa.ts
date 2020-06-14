@@ -6,7 +6,7 @@ app.use((ctx) => {
   ctx.body = { hello: 'world' };
 });
 
-beforeEach(async () => {
+beforeAll(async () => {
   await setTestApp(app);
 });
 

@@ -110,11 +110,11 @@ async function startServer(app: Application): Promise<RunningServer> {
  *
  * let testInstance: AxiosTestInstance;
  *
- * beforeEach(async () => {
+ * beforeAll(async () => {
  *   testInstance = await patchInstance(instance, app);
  * });
  *
- * afterEach(async () => {
+ * afterAll(async () => {
  *   await testInstance.close();
  * });
  *
@@ -153,11 +153,11 @@ export async function patchInstance(
  *
  * let instance: AxiosTestInstance;
  *
- * beforeEach(async () => {
+ * beforeAll(async () => {
  *   instance = await createInstance(app);
  * });
  *
- * afterEach(async () => {
+ * afterAll(async () => {
  *   await instance.close();
  * });
  *
@@ -190,11 +190,11 @@ export async function createInstance(
  *
  * import app from './app';
  *
- * beforeEach(async () => {
+ * beforeAll(async () => {
  *   await setTestApp(app);
  * });
  *
- * afterEach(closeTestApp);
+ * afterAll(closeTestApp);
  */
 export const request: AxiosTestInstance = Object.assign(
   axios.create({ validateStatus: () => true }),
@@ -204,7 +204,8 @@ export const request: AxiosTestInstance = Object.assign(
 /**
  * Close the default axios test instance.
  *
- * This can be passed directly to the `afterEach()` function of the testing framework.
+ * This can be passed directly to the `afterEach()` or `afterAll() function of the testing
+ * framework.
  *
  * @see request for more details
  */
