@@ -28,13 +28,30 @@ interface KoaLike {
   callback(): RequestListener;
 }
 
+/**
+ * An interface that mimics a Fastify instance.
+ */
 interface FastifyLike {
+  /**
+   * Close the Fastify instance.
+   */
   close(): PromiseLike<void>;
+
+  /**
+   * Start the fastify instance.
+   */
   listen(port: number, callback: (err: Error, address: string) => void): void;
+
+  /**
+   * The HTTP server instance.
+   */
   server: Server;
 }
 
-type Application = FastifyLike | KoaLike | RequestListener;
+/**
+ * A web server application that represents either an HTTP callback function or a Koa or Fastify instance.
+ */
+export type Application = FastifyLike | KoaLike | RequestListener;
 
 /**
  * Start a server for the given application.
