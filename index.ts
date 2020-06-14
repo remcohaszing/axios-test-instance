@@ -63,7 +63,7 @@ export async function patchInstance(
   const { address, port } = server.address() as AddressInfo;
   const inst = instance as AxiosTestInstance;
   const { baseURL } = instance.defaults;
-  inst.defaults.baseURL = `${new URL(baseURL || '', `http://${address}:${port}`)}`;
+  inst.defaults.baseURL = String(new URL(baseURL || '', `http://${address}:${port}`));
   inst.close = (): Promise<void> =>
     new Promise((resolve, reject) => {
       inst.defaults.baseURL = baseURL;
