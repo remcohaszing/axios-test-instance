@@ -128,13 +128,13 @@ export async function patchInstance(
   instance: AxiosInstance,
   app: Application,
 ): Promise<AxiosTestInstance> {
-  const { close, uri } = await startServer(app);
+  const server = await startServer(app);
   const inst = instance as AxiosTestInstance;
   const { baseURL } = instance.defaults;
-  inst.defaults.baseURL = String(new URL(baseURL || '', uri));
+  inst.defaults.baseURL = String(new URL(baseURL || '', server.uri));
   inst.close = async (): Promise<void> => {
     inst.defaults.baseURL = baseURL;
-    await close();
+    await server.close();
     inst.close = (): Promise<void> => Promise.resolve();
   };
   return inst;
