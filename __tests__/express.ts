@@ -10,7 +10,7 @@ beforeAll(async () => {
   await setTestApp(app);
 });
 
-test('express app', async () => {
+it('should work with an express app', async () => {
   const { data, headers, status } = await request.get('/');
   expect(status).toBe(200);
   expect(headers).toMatchObject({ 'content-type': 'application/json; charset=utf-8' });

@@ -1,7 +1,8 @@
-import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 import { createServer, RequestListener, Server } from 'http';
 import { AddressInfo } from 'net';
 import { URL } from 'url';
+
+import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 
 /**
  * An Axios instance that is bound to a test server.
@@ -10,22 +11,30 @@ export interface AxiosTestInstance extends AxiosInstance {
   /**
    * Close the internal http server and restore the original baseURL.
    */
-  close(): Promise<void>;
+  close: () => Promise<void>;
 }
 
 interface RunningServer {
+  /**
+   * The URI to set as a base URI.
+   */
   uri: string;
-  close(): Promise<void>;
+
+  /**
+   * A function to close the running server.
+   */
+  close: () => Promise<void>;
 }
 
 /**
- * An interface that matches the minimal functionality of a Koa app required to create a test instance.
+ * An interface that matches the minimal functionality of a Koa app required to create a test
+ * instance.
  */
 interface KoaLike {
   /**
    * Return a request handler callback for node’s native http server.
    */
-  callback(): RequestListener;
+  callback: () => RequestListener;
 }
 
 /**
@@ -35,12 +44,12 @@ interface FastifyLike {
   /**
    * Close the Fastify instance.
    */
-  close(): PromiseLike<void>;
+  close: () => PromiseLike<void>;
 
   /**
    * Start the fastify instance.
    */
-  listen(port: number, callback: (err: Error, address: string) => void): void;
+  listen: (port: number, callback: (err: Error, address: string) => void) => void;
 
   /**
    * The HTTP server instance.
@@ -49,14 +58,17 @@ interface FastifyLike {
 }
 
 /**
- * A web server application that represents either an HTTP callback function or a Koa or Fastify instance.
+ * A web server application that represents either an HTTP callback function or a Koa or Fastify
+ * instance.
  */
 export type Application = FastifyLike | KoaLike | RequestListener;
 
 /**
  * Start a server for the given application.
  *
- * @param app The application to start a server for
+ * @param app - The application to start a server for.
+ *
+ * @returns An internal server configuration.
  */
 async function startServer(app: Application): Promise<RunningServer> {
   if ('server' in app && 'listen' in app && 'close' in app) {
@@ -118,9 +130,8 @@ async function startServer(app: Application): Promise<RunningServer> {
  *   await testInstance.close();
  * });
  *
- * @param instance The instance to patch.
- * @param app The HTTP callback function or Koa app to which requests will be redirected.
- * @param serverOptions Options that are passed to the http server listen function.
+ * @param instance - The instance to patch.
+ * @param app - The HTTP callback function or Koa app to which requests will be redirected.
  *
  * @returns the patched instance.
  */
@@ -128,13 +139,13 @@ export async function patchInstance(
   instance: AxiosInstance,
   app: Application,
 ): Promise<AxiosTestInstance> {
-  const server = await startServer(app);
+  const { close, uri } = await startServer(app);
   const inst = instance as AxiosTestInstance;
   const { baseURL } = instance.defaults;
-  inst.defaults.baseURL = String(new URL(baseURL || '', server.uri));
+  inst.defaults.baseURL = String(new URL(baseURL || '', uri));
   inst.close = async (): Promise<void> => {
     inst.defaults.baseURL = baseURL;
-    await server.close();
+    await close();
     inst.close = (): Promise<void> => Promise.resolve();
   };
   return inst;
@@ -160,13 +171,12 @@ export async function patchInstance(
  *   await instance.close();
  * });
  *
- * @param app An http callback function or a Koa app instance.
- * @param axiosConfig Configuration options to pass to the axios create call.
- * @param serverOptions Options that are passed to the http server listen function.
+ * @param app - An http callback function or a Koa app instance.
+ * @param axiosConfig - Configuration options to pass to the axios create call.
  *
  * @returns An axios instance that is bound to a test server.
  */
-export async function createInstance(
+export function createInstance(
   app: Application,
   axiosConfig?: AxiosRequestConfig,
 ): Promise<AxiosTestInstance> {
@@ -209,7 +219,7 @@ export const request: AxiosTestInstance = Object.assign(
  * @see request for more details
  */
 export async function closeTestApp(): Promise<void> {
-  return request.close();
+  await request.close();
 }
 
 /**
@@ -217,7 +227,9 @@ export async function closeTestApp(): Promise<void> {
  *
  * @see request for more details
  *
- * @param app An http callback function or a Koa app instance.
+ * @param app - An http callback function or a Koa app instance.
+ *
+ * @returns The default axios test instance
  */
 export async function setTestApp(app: Application): Promise<AxiosTestInstance> {
   await closeTestApp();

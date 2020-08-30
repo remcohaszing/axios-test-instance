@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { AxiosTestInstance, patchInstance } from 'axios-test-instance';
-import * as bodyParser from 'body-parser';
+import { json } from 'body-parser';
 import * as express from 'express';
 
 // ——— Shared types ———
@@ -24,7 +24,7 @@ const users: Credentials[] = [
 ];
 
 const backend = express();
-backend.use(bodyParser.json());
+backend.use(json());
 backend.post<never, TokenResponse, Credentials>('/api/token', (req, res) => {
   const { password, username } = req.body;
   const user = users.find((u) => u.username === username && u.password === password);
@@ -56,7 +56,7 @@ afterAll(async () => {
   await instance.close();
 });
 
-test('login', async () => {
+it('should be possible to login', async () => {
   await login({
     password: 'I love krabby patties!',
     username: 'spongebob',

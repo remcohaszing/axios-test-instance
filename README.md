@@ -55,8 +55,8 @@ can be used to to patch this instance instead.
 ```js
 import { patchInstance } from 'axios-test-instance';
 
-import request from './request';
 import app from './app';
+import request from './request';
 
 let instance;
 

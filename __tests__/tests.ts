@@ -1,7 +1,8 @@
+import * as http from 'http';
+
 import axios from 'axios';
 import { Application, closeTestApp, createInstance, patchInstance } from 'axios-test-instance';
 import * as express from 'express';
-import * as http from 'http';
 
 const app = express();
 app.get('/', (req, res) => {
@@ -13,21 +14,21 @@ afterEach(() => {
   jest.restoreAllMocks();
 });
 
-test('error response shouldn’t throw', async () => {
+it('should not throw on an error response', async () => {
   const instance = await createInstance(app);
   const { status } = await instance.get('/');
   expect(status).toBe(500);
   await instance.close();
 });
 
-test('calling close twice should be fine', async () => {
+it('should be fine to call close twice', async () => {
   const instance = await createInstance(app);
   await expect(instance.close()).resolves.toBeUndefined();
   await expect(instance.close()).resolves.toBeUndefined();
   await instance.close();
 });
 
-test('patched baseURL should be restored', async () => {
+it('should restore the patched baseURL', async () => {
   const originalInstance = axios.create({ baseURL: '/test' });
   const testInstance = await patchInstance(originalInstance, app);
   expect(testInstance).toBe(originalInstance);
@@ -38,12 +39,12 @@ test('patched baseURL should be restored', async () => {
 
 it('should reject close if startubg the fastify server fails', async () => {
   const error = new Error('stub');
-  const app: Application = {
+  const fakeApp: Application = {
     listen: (port, cb) => cb(error, ''),
     server: (null as unknown) as http.Server,
     close: (null as unknown) as () => Promise<void>,
   };
-  await expect(createInstance(app)).rejects.toThrow(error);
+  await expect(createInstance(fakeApp)).rejects.toThrow(error);
 });
 
 it('should reject close if closing the server fails', async () => {
@@ -57,17 +58,20 @@ it('should reject close if closing the server fails', async () => {
   };
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   jest.spyOn(http, 'createServer').mockReturnValue(server as any);
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   const instance = await createInstance(() => {});
-  await expect(instance.close()).rejects.toThrowError(error);
+  await expect(instance.close()).rejects.toThrow(error);
 });
 
-test('closing default instance shouldn’t crash', async () => {
+it('should not crash when closing the default instance', async () => {
   await expect(closeTestApp()).resolves.toBeUndefined();
   await expect(closeTestApp()).resolves.toBeUndefined();
 });
 
-test('afterAll is not defined', async () => {
+it('should not crash if afterAll is not defined', async () => {
+  // @ts-expect-error This is deleted to fake a non-jest environment.
   delete global.afterAll;
-  jest.resetModuleRegistry();
+  jest.resetModules();
+  // eslint-disable-next-line node/no-unsupported-features/es-syntax
   await expect(import('..')).resolves.toBeDefined();
 });
