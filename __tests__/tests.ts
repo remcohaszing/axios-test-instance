@@ -23,8 +23,10 @@ it('should not throw on an error response', async () => {
 
 it('should be fine to call close twice', async () => {
   const instance = await createInstance(app);
-  await expect(instance.close()).resolves.toBeUndefined();
-  await expect(instance.close()).resolves.toBeUndefined();
+  const result1 = await instance.close();
+  const result2 = await instance.close();
+  expect(result1).toBeUndefined();
+  expect(result2).toBeUndefined();
   await instance.close();
 });
 
@@ -52,7 +54,7 @@ it('should reject close if closing the server fails', async () => {
   const server = {
     listen: (port: number, host: string, cb: () => void) => cb(),
     address: () => ({ port: 1337 }),
-    close(cb: (error?: Error) => void) {
+    close(cb: (err?: Error) => void) {
       cb(error);
     },
   };
@@ -64,8 +66,10 @@ it('should reject close if closing the server fails', async () => {
 });
 
 it('should not crash when closing the default instance', async () => {
-  await expect(closeTestApp()).resolves.toBeUndefined();
-  await expect(closeTestApp()).resolves.toBeUndefined();
+  const result1 = await closeTestApp();
+  expect(result1).toBeUndefined();
+  const result2 = await closeTestApp();
+  expect(result2).toBeUndefined();
 });
 
 it('should not crash if afterAll is not defined', async () => {
@@ -73,5 +77,6 @@ it('should not crash if afterAll is not defined', async () => {
   delete global.afterAll;
   jest.resetModules();
   // eslint-disable-next-line node/no-unsupported-features/es-syntax
-  await expect(import('..')).resolves.toBeDefined();
+  const result = await import('..');
+  expect(result).toBeDefined();
 });
