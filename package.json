@@ -32,7 +32,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "@types/node": "14.14.2",
+    "@types/node": "*",
     "axios": "^0.21.0"
   },
   "engines": {
