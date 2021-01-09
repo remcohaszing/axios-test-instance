@@ -9,6 +9,6 @@
       "axios-test-instance": ["index.ts"]
     },
     "strict": true,
-    "target": "esnext"
+    "target": "es2018"
   }
 }
