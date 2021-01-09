@@ -102,7 +102,7 @@ async function startServer(app: Application): Promise<RunningServer> {
     });
   }
   const server = createServer(app instanceof Function ? app : app.callback());
-  await new Promise((resolve) => {
+  await new Promise<void>((resolve) => {
     server.listen(undefined, '127.0.0.1', resolve);
   });
   const { address, port } = server.address() as AddressInfo;

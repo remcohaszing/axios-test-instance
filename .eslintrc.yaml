@@ -8,13 +8,3 @@ settings:
     typescript:
       alwaysTryTypes: true
       project: tsconfig.json
-
-rules:
-  camelcase: 'off'
-  '@typescript-eslint/naming-convention': 'off'
-
-overrides:
-  - files:
-      - '*.md/*.js'
-    rules:
-      import/extensions: 'off'

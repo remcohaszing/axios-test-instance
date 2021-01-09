@@ -76,7 +76,6 @@ it('should not crash if afterAll is not defined', async () => {
   // @ts-expect-error This is deleted to fake a non-jest environment.
   delete global.afterAll;
   jest.resetModules();
-  // eslint-disable-next-line node/no-unsupported-features/es-syntax
   const result = await import('..');
   expect(result).toBeDefined();
 });
