@@ -64,6 +64,20 @@ interface FastifyLike {
 export type Application = FastifyLike | KoaLike | RequestListener;
 
 /**
+ * Assign form-data headers to the axios request config.
+ *
+ * @param config - The incoming axios request config.
+ *
+ * @returns The patched axios request config.
+ */
+function formDataInterceptor(config: AxiosRequestConfig): AxiosRequestConfig {
+  if (typeof config.data?.getHeaders === 'function') {
+    Object.assign(config.headers, config.data.getHeaders());
+  }
+  return config;
+}
+
+/**
  * Start a server for the given application.
  *
  * @param app - The application to start a server for.
@@ -176,17 +190,19 @@ export async function patchInstance(
  *
  * @returns An axios instance that is bound to a test server.
  */
-export function createInstance(
+export async function createInstance(
   app: Application,
   axiosConfig?: AxiosRequestConfig,
 ): Promise<AxiosTestInstance> {
-  return patchInstance(
+  const instance = await patchInstance(
     axios.create({
       validateStatus: () => true,
       ...axiosConfig,
     }),
     app,
   );
+  instance.interceptors.request.use(formDataInterceptor);
+  return instance;
 }
 
 /**
@@ -209,6 +225,7 @@ export const request: AxiosTestInstance = Object.assign(
   axios.create({ validateStatus: () => true }),
   { close: () => Promise.resolve() },
 );
+request.interceptors.request.use(formDataInterceptor);
 
 /**
  * Close the default axios test instance.
