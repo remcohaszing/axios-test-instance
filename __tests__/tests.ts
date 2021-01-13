@@ -9,9 +9,19 @@ app.get('/', (req, res) => {
   res.status(500);
   res.end();
 });
+app.get('/redirect', (req, res) => {
+  res.redirect('/');
+});
 
 afterEach(() => {
   jest.restoreAllMocks();
+});
+
+it('should not follow redirects', async () => {
+  const instance = await createInstance(app);
+  const { status } = await instance.get('/redirect');
+  expect(status).toBe(302);
+  await instance.close();
 });
 
 it('should not throw on an error response', async () => {

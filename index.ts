@@ -196,6 +196,7 @@ export async function createInstance(
 ): Promise<AxiosTestInstance> {
   const instance = await patchInstance(
     axios.create({
+      maxRedirects: 0,
       validateStatus: () => true,
       ...axiosConfig,
     }),
@@ -222,7 +223,7 @@ export async function createInstance(
  * afterAll(closeTestApp);
  */
 export const request: AxiosTestInstance = Object.assign(
-  axios.create({ validateStatus: () => true }),
+  axios.create({ maxRedirects: 0, validateStatus: () => true }),
   { close: () => Promise.resolve() },
 );
 request.interceptors.request.use(formDataInterceptor);
