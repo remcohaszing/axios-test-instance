@@ -25,7 +25,7 @@ beforeAll(async () => {
   await setTestApp(app);
 });
 
-it('should work with an http request listener', async () => {
+it('should accept form data in the body', async () => {
   const form = new FormData();
   form.append('image', Buffer.from('PNG'), { contentType: 'image/png', filename: 'image.png' });
   const { data, headers, status } = await request.post('/', form, { responseType: 'arraybuffer' });
