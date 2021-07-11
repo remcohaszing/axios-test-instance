@@ -67,7 +67,6 @@ export type Application = FastifyLike | KoaLike | RequestListener;
  * Assign form-data headers to the axios request config.
  *
  * @param config - The incoming axios request config.
- *
  * @returns The patched axios request config.
  */
 function formDataInterceptor(config: AxiosRequestConfig): AxiosRequestConfig {
@@ -81,7 +80,6 @@ function formDataInterceptor(config: AxiosRequestConfig): AxiosRequestConfig {
  * Start a server for the given application.
  *
  * @param app - The application to start a server for.
- *
  * @returns An internal server configuration.
  */
 async function startServer(app: Application): Promise<RunningServer> {
@@ -143,10 +141,8 @@ async function startServer(app: Application): Promise<RunningServer> {
  * afterAll(async () => {
  *   await testInstance.close();
  * });
- *
  * @param instance - The instance to patch.
  * @param app - The HTTP callback function or Koa app to which requests will be redirected.
- *
  * @returns the patched instance.
  */
 export async function patchInstance(
@@ -184,10 +180,8 @@ export async function patchInstance(
  * afterAll(async () => {
  *   await instance.close();
  * });
- *
  * @param app - An http callback function or a Koa app instance.
  * @param axiosConfig - Configuration options to pass to the axios create call.
- *
  * @returns An axios instance that is bound to a test server.
  */
 export async function createInstance(
@@ -244,9 +238,7 @@ export async function closeTestApp(): Promise<void> {
  * Set the test app for the default axios test instance.
  *
  * @see request for more details
- *
  * @param app - An http callback function or a Koa app instance.
- *
  * @returns The default axios test instance
  */
 export async function setTestApp(app: Application): Promise<AxiosTestInstance> {

@@ -53,8 +53,8 @@ it('should reject close if startubg the fastify server fails', async () => {
   const error = new Error('stub');
   const fakeApp: Application = {
     listen: (port, cb) => cb(error, ''),
-    server: (null as unknown) as http.Server,
-    close: (null as unknown) as () => Promise<void>,
+    server: null as unknown as http.Server,
+    close: null as unknown as () => Promise<void>,
   };
   await expect(createInstance(fakeApp)).rejects.toThrow(error);
 });
