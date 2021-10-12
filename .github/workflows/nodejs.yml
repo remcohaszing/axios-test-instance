@@ -1,21 +1,21 @@
 name: NodeJS
 
 on:
-  - pull_request
-  - push
+  pull_request:
+  push:
+    branches: [main]
+    tags: ['*']
 
 jobs:
   eslint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - uses: actions/setup-node@v1
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
         with:
           node-version: 16
-      - name: ESLint
-        run: |
-          yarn --frozen-lockfile
-          yarn eslint .
+      - run: yarn --frozen-lockfile
+      - run: yarn eslint .
 
   jest:
     runs-on: ubuntu-latest
@@ -23,37 +23,31 @@ jobs:
       matrix:
         node-version: [12, 14, 16]
     steps:
-      - uses: actions/checkout@v1
-      - uses: actions/setup-node@v1
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
-      - name: Test
-        run: |
-          yarn --frozen-lockfile
-          yarn test --coverage
-      - uses: codecov/codecov-action@v1
+      - run: yarn --frozen-lockfile
+      - run: yarn test --coverage
+      - uses: codecov/codecov-action@v2
         if: ${{ matrix.node-version == 16 }}
 
   prettier:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - uses: actions/setup-node@v1
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
         with:
           node-version: 16
-      - name: Prettier
-        run: |
-          yarn --frozen-lockfile
-          yarn prettier --check .
+      - run: yarn --frozen-lockfile
+      - run: yarn prettier --check .
 
   tsc:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - uses: actions/setup-node@v1
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
         with:
           node-version: 16
-      - name: TSC
-        run: |
-          yarn --frozen-lockfile
-          yarn tsc
+      - run: yarn --frozen-lockfile
+      - run: yarn tsc
