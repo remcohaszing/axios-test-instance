@@ -41,7 +41,7 @@ const request = axios.create({ baseURL: '/api' });
 
 async function login(credentials: Credentials): Promise<void> {
   const { data } = await request.post<TokenResponse>('/token', credentials);
-  request.defaults.headers.Authorization = `Bearer ${data.access_token}`;
+  request.defaults.headers.common.Authorization = `Bearer ${data.access_token}`;
 }
 
 // ——— Test ———
@@ -61,5 +61,5 @@ it('should be possible to login', async () => {
     password: 'I love krabby patties!',
     username: 'spongebob',
   });
-  expect(request.defaults.headers.Authorization).toBe('Bearer super.secret.token');
+  expect(request.defaults.headers.common.Authorization).toBe('Bearer super.secret.token');
 });
