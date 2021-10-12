@@ -26,46 +26,44 @@
     "index.d.ts"
   ],
   "scripts": {
-    "eslint": "eslint --max-warnings 0",
-    "prettier": "prettier --check",
     "prepack": "tsc -p tsconfig-build.json",
     "test": "jest"
   },
   "dependencies": {
     "@types/node": "*",
-    "axios": "^0.21.1"
+    "axios": "^0.23.0"
   },
   "engines": {
     "node": ">=10.0.0"
   },
   "devDependencies": {
-    "@types/busboy": "^0.2.4",
-    "@types/jest": "^26.0.24",
-    "@types/koa": "^2.13.4",
-    "@typescript-eslint/eslint-plugin": "^4.28.2",
-    "@typescript-eslint/parser": "^4.28.2",
-    "body-parser": "^1.19.0",
-    "busboy": "^0.3.1",
-    "eslint": "^7.30.0",
-    "eslint-config-remcohaszing": "^3.4.0",
-    "eslint-import-resolver-typescript": "^2.4.0",
-    "eslint-plugin-eslint-comments": "^3.2.0",
-    "eslint-plugin-import": "^2.23.4",
-    "eslint-plugin-jest": "^24.3.6",
+    "@types/busboy": "^0.2.0",
+    "@types/jest": "^27.0.0",
+    "@types/koa": "^2.0.0",
+    "@typescript-eslint/eslint-plugin": "^4.0.0",
+    "@typescript-eslint/parser": "^4.0.0",
+    "body-parser": "^1.0.0",
+    "busboy": "^0.3.0",
+    "eslint": "^7.0.0",
+    "eslint-config-remcohaszing": "^3.0.0",
+    "eslint-import-resolver-typescript": "^2.0.0",
+    "eslint-plugin-eslint-comments": "^3.0.0",
+    "eslint-plugin-import": "^2.0.0",
+    "eslint-plugin-jest": "^24.0.0",
     "eslint-plugin-jest-formatting": "^2.0.0",
-    "eslint-plugin-jsdoc": "^35.4.3",
-    "eslint-plugin-markdown": "^2.2.0",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-prettier": "^3.4.0",
-    "eslint-plugin-sort-destructure-keys": "^1.3.5",
-    "eslint-plugin-unicorn": "^32.0.1",
-    "express": "^4.17.1",
-    "fastify": "^3.19.0",
+    "eslint-plugin-jsdoc": "^36.0.0",
+    "eslint-plugin-markdown": "^2.0.0",
+    "eslint-plugin-node": "^11.0.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-sort-destructure-keys": "^1.0.0",
+    "eslint-plugin-unicorn": "^36.0.0",
+    "express": "^4.0.0",
+    "fastify": "^3.0.0",
     "form-data": "^4.0.0",
-    "jest": "^27.0.6",
-    "koa": "^2.13.1",
-    "prettier": "^2.3.2",
-    "ts-jest": "^27.0.3",
-    "typescript": "^4.3.5"
+    "jest": "^27.0.0",
+    "koa": "^2.0.0",
+    "prettier": "^2.0.0",
+    "ts-jest": "^27.0.0",
+    "typescript": "^4.0.0"
   }
 }

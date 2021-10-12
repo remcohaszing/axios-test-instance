@@ -44,7 +44,7 @@ jobs:
       - name: Prettier
         run: |
           yarn --frozen-lockfile
-          yarn prettier .
+          yarn prettier --check .
 
   tsc:
     runs-on: ubuntu-latest
