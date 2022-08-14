@@ -25,6 +25,9 @@
     "index.js",
     "index.d.ts"
   ],
+  "sponsor": {
+    "url": "https://github.com/sponsors/remcohaszing"
+  },
   "scripts": {
     "prepack": "tsc -p tsconfig-build.json",
     "test": "jest"
