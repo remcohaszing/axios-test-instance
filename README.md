@@ -82,3 +82,7 @@ For usages examples, have a look at our test cases:
 - [HTTP callback example](__tests__/callback.ts)
 - [Form data example](__tests__/form-data.ts)
 - [End to end example](__tests__/e2e.ts)
+
+## License
+
+[MIT](LICENSE.md) © [Remco Haszing](https://github.com/remcohaszing)
