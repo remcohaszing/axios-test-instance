@@ -3,6 +3,7 @@
     "baseUrl": ".",
     "lib": ["esnext"],
     "module": "commonjs",
+    "moduleResolution": "node",
     "noEmit": true,
     "noImplicitAny": true,
     "paths": {

@@ -1,24 +1,24 @@
 import { RequestListener } from 'http';
 
 import { request, setTestApp } from 'axios-test-instance';
-import * as Busboy from 'busboy';
+import * as busboy from 'busboy';
 import * as FormData from 'form-data';
 
 const app: RequestListener = (req, res) => {
-  const busboy = new Busboy(req);
-  busboy.on('file', (fieldname, file, filename, encoding, mimetype) => {
+  const bb = busboy(req);
+  bb.on('file', (fieldname, file, { mimeType }) => {
     if (!res.writableEnded) {
-      res.setHeader('content-type', mimetype);
+      res.setHeader('content-type', mimeType);
       file.pipe(res);
       file.on('end', () => {
         res.end();
       });
     }
   });
-  busboy.on('end', () => {
+  bb.on('end', () => {
     res.end();
   });
-  req.pipe(busboy);
+  req.pipe(bb);
 };
 
 beforeAll(async () => {

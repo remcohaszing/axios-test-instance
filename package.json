@@ -31,39 +31,30 @@
   },
   "dependencies": {
     "@types/node": "*",
-    "axios": "^0.23.0"
+    "axios": "^0.27.0"
   },
   "engines": {
-    "node": ">=12.0.0"
+    "node": ">=14.0.0"
   },
   "devDependencies": {
-    "@types/busboy": "^0.2.0",
-    "@types/jest": "^27.0.0",
+    "@types/busboy": "^1.0.0",
+    "@types/jest": "^28.0.0",
     "@types/koa": "^2.0.0",
-    "@typescript-eslint/eslint-plugin": "^4.0.0",
-    "@typescript-eslint/parser": "^4.0.0",
+    "@typescript-eslint/eslint-plugin": "^5.0.0",
     "body-parser": "^1.0.0",
-    "busboy": "^0.3.0",
-    "eslint": "^7.0.0",
-    "eslint-config-remcohaszing": "^3.0.0",
+    "busboy": "^1.0.0",
+    "eslint": "^8.0.0",
+    "eslint-config-remcohaszing": "^6.0.0",
     "eslint-import-resolver-typescript": "^2.0.0",
-    "eslint-plugin-eslint-comments": "^3.0.0",
-    "eslint-plugin-import": "^2.0.0",
-    "eslint-plugin-jest": "^24.0.0",
-    "eslint-plugin-jest-formatting": "^2.0.0",
-    "eslint-plugin-jsdoc": "^36.0.0",
-    "eslint-plugin-markdown": "^2.0.0",
-    "eslint-plugin-node": "^11.0.0",
-    "eslint-plugin-prettier": "^4.0.0",
-    "eslint-plugin-sort-destructure-keys": "^1.0.0",
-    "eslint-plugin-unicorn": "^36.0.0",
+    "eslint-plugin-jest": "^26.0.0",
+    "eslint-plugin-jest-formatting": "^3.0.0",
     "express": "^4.0.0",
-    "fastify": "^3.0.0",
+    "fastify": "^4.0.0",
     "form-data": "^4.0.0",
-    "jest": "^27.0.0",
+    "jest": "^28.0.0",
     "koa": "^2.0.0",
     "prettier": "^2.0.0",
-    "ts-jest": "^27.0.0",
+    "ts-jest": "^28.0.0",
     "typescript": "^4.0.0"
   }
 }

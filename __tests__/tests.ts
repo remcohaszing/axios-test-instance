@@ -1,8 +1,9 @@
 import * as http from 'http';
 
 import axios from 'axios';
-import { Application, closeTestApp, createInstance, patchInstance } from 'axios-test-instance';
+import { closeTestApp, createInstance, patchInstance } from 'axios-test-instance';
 import * as express from 'express';
+import { FastifyInstance } from 'fastify';
 
 const app = express();
 app.get('/', (req, res) => {
@@ -49,13 +50,14 @@ it('should restore the patched baseURL', async () => {
   expect(testInstance.defaults.baseURL).toBe('/test');
 });
 
-it('should reject close if startubg the fastify server fails', async () => {
+it('should reject close if starting the fastify server fails', async () => {
   const error = new Error('stub');
-  const fakeApp: Application = {
-    listen: (port, cb) => cb(error, ''),
+  const fakeApp = {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    listen: (options, cb) => (cb as any)(error, ''),
     server: null as unknown as http.Server,
     close: null as unknown as () => Promise<void>,
-  };
+  } as Partial<FastifyInstance> as FastifyInstance;
   await expect(createInstance(fakeApp)).rejects.toThrow(error);
 });
 
@@ -86,6 +88,6 @@ it('should not crash if afterAll is not defined', async () => {
   // @ts-expect-error This is deleted to fake a non-jest environment.
   delete global.afterAll;
   jest.resetModules();
-  const result = await import('..');
+  const result = await import('axios-test-instance');
   expect(result).toBeDefined();
 });

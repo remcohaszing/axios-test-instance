@@ -3,8 +3,5 @@ extends:
   - remcohaszing/jest
 env:
   jest/globals: true
-settings:
-  import/resolver:
-    typescript:
-      alwaysTryTypes: true
-      project: tsconfig.json
+rules:
+  import/no-extraneous-dependencies: off
