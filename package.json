@@ -26,7 +26,7 @@
     "index.d.ts",
     "types.d.ts"
   ],
-  "sponsor": {
+  "funding": {
     "url": "https://github.com/sponsors/remcohaszing"
   },
   "scripts": {
