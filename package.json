@@ -15,6 +15,7 @@
   "keywords": [
     "axios",
     "express",
+    "fastify",
     "http",
     "jest",
     "koa",
