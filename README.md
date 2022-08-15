@@ -23,7 +23,7 @@ npm install axios-test-instance
 ```js
 import { request, setTestApp } from 'axios-test-instance';
 
-import app from './app';
+import { app } from './app.js';
 
 beforeAll(async () => {
   await setTestApp(app);
@@ -36,7 +36,7 @@ case, a test instance can be created manually using `createInstance`.
 ```js
 import { createInstance } from 'axios-test-instance';
 
-import app from './app';
+import { app } from './app.js';
 
 let instance;
 
@@ -55,8 +55,8 @@ can be used to to patch this instance instead.
 ```js
 import { patchInstance } from 'axios-test-instance';
 
-import app from './app';
-import request from './request';
+import { app } from './app.js';
+import { request } from './request.js';
 
 let instance;
 
