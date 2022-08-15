@@ -83,6 +83,11 @@ For usages examples, have a look at our test cases:
 - [Form data example](__tests__/form-data.ts)
 - [End to end example](__tests__/e2e.ts)
 
+## See also
+
+- [jest-axios-snapshot](https://github.com/remcohaszing/jest-axios-snapshot) asserts axios responses
+  using jest snapshots.
+
 ## License
 
 [MIT](LICENSE.md) © [Remco Haszing](https://github.com/remcohaszing)
