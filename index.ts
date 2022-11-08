@@ -1,7 +1,8 @@
 import { createServer } from 'node:http';
 import { AddressInfo } from 'node:net';
 
-import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
+// @ts-expect-error https://github.com/axios/axios/pull/5196
+import * as axios from 'axios';
 
 // eslint-disable-next-line @typescript-eslint/consistent-type-imports
 import { type Application } from './types.js';
@@ -9,7 +10,7 @@ import { type Application } from './types.js';
 /**
  * An Axios instance that is bound to a test server.
  */
-export interface AxiosTestInstance extends AxiosInstance {
+export interface AxiosTestInstance extends axios.AxiosInstance {
   /**
    * Close the internal http server and restore the original baseURL.
    */
@@ -36,7 +37,7 @@ export { Application };
  * @param config The incoming axios request config.
  * @returns The patched axios request config.
  */
-function formDataInterceptor(config: AxiosRequestConfig): AxiosRequestConfig {
+function formDataInterceptor(config: axios.AxiosRequestConfig): axios.AxiosRequestConfig {
   if (typeof config.data?.getHeaders === 'function') {
     // eslint-disable-next-line no-param-reassign
     config.headers = Object.assign(config.headers || {}, config.data.getHeaders());
@@ -53,7 +54,7 @@ function formDataInterceptor(config: AxiosRequestConfig): AxiosRequestConfig {
 async function startServer(app: Application): Promise<RunningServer> {
   if ('server' in app && 'listen' in app && 'close' in app) {
     return new Promise((resolve, reject) => {
-      app.listen({ port: 0 }, (error, uri) => {
+      app.listen({ host: '127.0.0.1', port: 0 }, (error, uri) => {
         if (error) {
           reject(error);
         } else {
@@ -114,7 +115,7 @@ async function startServer(app: Application): Promise<RunningServer> {
  * });
  */
 export async function patchInstance(
-  instance: AxiosInstance,
+  instance: axios.AxiosInstance,
   app: Application,
 ): Promise<AxiosTestInstance> {
   const { close, uri } = await startServer(app);
@@ -154,9 +155,10 @@ export async function patchInstance(
  */
 export async function createInstance(
   app: Application,
-  axiosConfig?: AxiosRequestConfig,
+  axiosConfig?: axios.AxiosRequestConfig,
 ): Promise<AxiosTestInstance> {
   const instance = await patchInstance(
+    // @ts-expect-error https://github.com/axios/axios/pull/5196
     axios.create({
       maxRedirects: 0,
       validateStatus: () => true,
@@ -185,6 +187,7 @@ export async function createInstance(
  * afterAll(closeTestApp);
  */
 export const request: AxiosTestInstance = Object.assign(
+  // @ts-expect-error https://github.com/axios/axios/pull/5196
   axios.create({ maxRedirects: 0, validateStatus: () => true }),
   { close: () => Promise.resolve() },
 );

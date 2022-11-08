@@ -1,6 +1,7 @@
 import * as http from 'node:http';
 
-import axios from 'axios';
+// @ts-expect-error https://github.com/axios/axios/pull/5196
+import * as axios from 'axios';
 import { closeTestApp, createInstance, patchInstance } from 'axios-test-instance';
 import * as express from 'express';
 import { FastifyInstance } from 'fastify';
@@ -42,6 +43,7 @@ it('should be fine to call close twice', async () => {
 });
 
 it('should restore the patched baseURL', async () => {
+  // @ts-expect-error https://github.com/axios/axios/pull/5196
   const originalInstance = axios.create({ baseURL: '/test' });
   const testInstance = await patchInstance(originalInstance, app);
   expect(testInstance).toBe(originalInstance);
@@ -84,10 +86,10 @@ it('should not crash when closing the default instance', async () => {
   expect(result2).toBeUndefined();
 });
 
-it('should not crash if afterAll is not defined', async () => {
+it('should not crash if afterAll is not defined', () => {
   // @ts-expect-error This is deleted to fake a non-jest environment.
   delete global.afterAll;
   jest.resetModules();
-  const result = await import('axios-test-instance');
-  expect(result).toBeDefined();
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  expect(() => require('axios-test-instance')).not.toThrow();
 });

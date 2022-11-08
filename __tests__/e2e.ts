@@ -1,4 +1,5 @@
-import axios from 'axios';
+// @ts-expect-error https://github.com/axios/axios/pull/5196
+import * as axios from 'axios';
 import { AxiosTestInstance, patchInstance } from 'axios-test-instance';
 import { json } from 'body-parser';
 import * as express from 'express';
@@ -37,6 +38,7 @@ backend.post<never, TokenResponse, Credentials>('/api/token', (req, res) => {
 
 // ——— Frontend ———
 
+// @ts-expect-error https://github.com/axios/axios/pull/5196
 const request = axios.create({ baseURL: '/api' });
 
 async function login(credentials: Credentials): Promise<void> {
