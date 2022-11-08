@@ -1,4 +1,4 @@
-import * as http from 'http';
+import * as http from 'node:http';
 
 import axios from 'axios';
 import { closeTestApp, createInstance, patchInstance } from 'axios-test-instance';

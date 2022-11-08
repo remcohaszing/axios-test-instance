@@ -1,4 +1,4 @@
-import { RequestListener } from 'http';
+import { RequestListener } from 'node:http';
 
 import { request, setTestApp } from 'axios-test-instance';
 import * as busboy from 'busboy';

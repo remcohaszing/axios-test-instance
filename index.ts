@@ -1,5 +1,5 @@
-import { createServer } from 'http';
-import { AddressInfo } from 'net';
+import { createServer } from 'node:http';
+import { AddressInfo } from 'node:net';
 
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 

@@ -1,4 +1,4 @@
-import { RequestListener } from 'http';
+import { RequestListener } from 'node:http';
 
 // eslint-disable-next-line @typescript-eslint/prefer-ts-expect-error
 // @ts-ignore
