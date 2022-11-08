@@ -4,6 +4,7 @@
   "description": "Test NodeJS backends using Axios",
   "author": "Remco Haszing <remcohaszing@gmail.com>",
   "license": "MIT",
+  "exports": "./index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/remcohaszing/axios-test-instance.git"
