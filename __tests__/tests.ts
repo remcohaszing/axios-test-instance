@@ -1,6 +1,5 @@
 import * as http from 'node:http'
 
-// @ts-expect-error https://github.com/axios/axios/pull/5196
 import * as axios from 'axios'
 import { closeTestApp, createInstance, patchInstance } from 'axios-test-instance'
 import * as express from 'express'
@@ -43,7 +42,6 @@ it('should be fine to call close twice', async () => {
 })
 
 it('should restore the patched baseURL', async () => {
-  // @ts-expect-error https://github.com/axios/axios/pull/5196
   const originalInstance = axios.create({ baseURL: '/test' })
   const testInstance = await patchInstance(originalInstance, app)
   expect(testInstance).toBe(originalInstance)

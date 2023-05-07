@@ -1,7 +1,6 @@
 import { createServer } from 'node:http'
 import { type AddressInfo } from 'node:net'
 
-// @ts-expect-error https://github.com/axios/axios/pull/5196
 import * as axios from 'axios'
 
 import { type Application } from './types.js'
@@ -36,7 +35,9 @@ export { Application }
  * @param config The incoming axios request config.
  * @returns The patched axios request config.
  */
-function formDataInterceptor(config: axios.AxiosRequestConfig): axios.AxiosRequestConfig {
+function formDataInterceptor(
+  config: axios.InternalAxiosRequestConfig
+): axios.InternalAxiosRequestConfig {
   if (typeof config.data?.getHeaders === 'function') {
     // eslint-disable-next-line no-param-reassign
     config.headers = Object.assign(config.headers || {}, config.data.getHeaders())
@@ -157,7 +158,6 @@ export async function createInstance(
   axiosConfig?: axios.AxiosRequestConfig
 ): Promise<AxiosTestInstance> {
   const instance = await patchInstance(
-    // @ts-expect-error https://github.com/axios/axios/pull/5196
     axios.create({
       maxRedirects: 0,
       validateStatus: () => true,
@@ -186,7 +186,6 @@ export async function createInstance(
  * afterAll(closeTestApp);
  */
 export const request: AxiosTestInstance = Object.assign(
-  // @ts-expect-error https://github.com/axios/axios/pull/5196
   axios.create({ maxRedirects: 0, validateStatus: () => true }),
   { close: () => Promise.resolve() }
 )
