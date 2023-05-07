@@ -1,17 +1,26 @@
-// @ts-expect-error https://github.com/axios/axios/pull/5196
 import * as axios from 'axios';
-import { AxiosTestInstance, patchInstance } from 'axios-test-instance';
+import { type AxiosTestInstance, patchInstance } from 'axios-test-instance';
 import { json } from 'body-parser';
 import * as express from 'express';
 
 // ——— Shared types ———
 
 interface Credentials {
+  /**
+   * The password the user entered.
+   */
   password: string;
+
+  /**
+   * The username the user entered.
+   */
   username: string;
 }
 
 interface TokenResponse {
+  /**
+   * An OAuth2 access token.
+   */
   access_token: string;
 }
 
@@ -38,9 +47,13 @@ backend.post<never, TokenResponse, Credentials>('/api/token', (req, res) => {
 
 // ——— Frontend ———
 
-// @ts-expect-error https://github.com/axios/axios/pull/5196
 const request = axios.create({ baseURL: '/api' });
 
+/**
+ * Authorize the client side default axios instance.
+ *
+ * @param credentials The credentials to login with.
+ */
 async function login(credentials: Credentials): Promise<void> {
   const { data } = await request.post<TokenResponse>('/token', credentials);
   request.defaults.headers.common.Authorization = `Bearer ${data.access_token}`;

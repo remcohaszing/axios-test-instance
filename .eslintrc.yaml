@@ -1,7 +1,6 @@
 extends:
   - remcohaszing
-  - remcohaszing/jest
 env:
-  jest/globals: true
+  jest: true
 rules:
   import/no-extraneous-dependencies: off

@@ -1,11 +1,11 @@
-import { RequestListener } from 'node:http';
+import { type RequestListener } from 'node:http';
 
 // eslint-disable-next-line @typescript-eslint/prefer-ts-expect-error
 // @ts-ignore
-import { FastifyInstance } from 'fastify';
+import { type FastifyInstance } from 'fastify';
 // eslint-disable-next-line @typescript-eslint/prefer-ts-expect-error
 // @ts-ignore
-import * as Koa from 'koa';
+import type * as Koa from 'koa';
 
 type FastifyLike = unknown extends FastifyInstance ? never : FastifyInstance;
 type KoaLike = unknown extends Koa ? never : Koa;

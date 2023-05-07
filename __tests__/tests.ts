@@ -4,7 +4,7 @@ import * as http from 'node:http';
 import * as axios from 'axios';
 import { closeTestApp, createInstance, patchInstance } from 'axios-test-instance';
 import * as express from 'express';
-import { FastifyInstance } from 'fastify';
+import { type FastifyInstance } from 'fastify';
 
 const app = express();
 app.get('/', (req, res) => {
@@ -90,6 +90,6 @@ it('should not crash if afterAll is not defined', () => {
   // @ts-expect-error This is deleted to fake a non-jest environment.
   delete global.afterAll;
   jest.resetModules();
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
+
   expect(() => require('axios-test-instance')).not.toThrow();
 });

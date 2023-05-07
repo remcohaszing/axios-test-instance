@@ -1,10 +1,9 @@
 import { createServer } from 'node:http';
-import { AddressInfo } from 'node:net';
+import { type AddressInfo } from 'node:net';
 
 // @ts-expect-error https://github.com/axios/axios/pull/5196
 import * as axios from 'axios';
 
-// eslint-disable-next-line @typescript-eslint/consistent-type-imports
 import { type Application } from './types.js';
 
 /**
