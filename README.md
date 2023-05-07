@@ -21,52 +21,52 @@ npm install axios-test-instance
 2. Import `request` and use it in tests.
 
 ```js
-import { request, setTestApp } from 'axios-test-instance';
+import { request, setTestApp } from 'axios-test-instance'
 
-import { app } from './app.js';
+import { app } from './app.js'
 
 beforeAll(async () => {
-  await setTestApp(app);
-});
+  await setTestApp(app)
+})
 ```
 
 The method above works with Jest, but it might not work with your testing framework. For this use
 case, a test instance can be created manually using `createInstance`.
 
 ```js
-import { createInstance } from 'axios-test-instance';
+import { createInstance } from 'axios-test-instance'
 
-import { app } from './app.js';
+import { app } from './app.js'
 
-let instance;
+let instance
 
 beforeAll(async () => {
-  instance = await createInstance(app);
-});
+  instance = await createInstance(app)
+})
 
 afterAll(async () => {
-  await instance.close();
-});
+  await instance.close()
+})
 ```
 
 Chances are you’re already using an Axios instance in your frontend. In this case, `patchInstance`
 can be used to to patch this instance instead.
 
 ```js
-import { patchInstance } from 'axios-test-instance';
+import { patchInstance } from 'axios-test-instance'
 
-import { app } from './app.js';
-import { request } from './request.js';
+import { app } from './app.js'
+import { request } from './request.js'
 
-let instance;
+let instance
 
 beforeAll(async () => {
-  instance = await patchInstance(request, app);
-});
+  instance = await patchInstance(request, app)
+})
 
 afterAll(async () => {
-  await instance.close();
-});
+  await instance.close()
+})
 ```
 
 Now requests made using this instance, will be redirected to the app under test.

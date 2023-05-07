@@ -1,10 +1,10 @@
-import { createServer } from 'node:http';
-import { type AddressInfo } from 'node:net';
+import { createServer } from 'node:http'
+import { type AddressInfo } from 'node:net'
 
 // @ts-expect-error https://github.com/axios/axios/pull/5196
-import * as axios from 'axios';
+import * as axios from 'axios'
 
-import { type Application } from './types.js';
+import { type Application } from './types.js'
 
 /**
  * An Axios instance that is bound to a test server.
@@ -13,22 +13,22 @@ export interface AxiosTestInstance extends axios.AxiosInstance {
   /**
    * Close the internal http server and restore the original baseURL.
    */
-  close: () => Promise<void>;
+  close: () => Promise<void>
 }
 
 interface RunningServer {
   /**
    * The URI to set as a base URI.
    */
-  uri: string;
+  uri: string
 
   /**
    * A function to close the running server.
    */
-  close: () => Promise<void>;
+  close: () => Promise<void>
 }
 
-export { Application };
+export { Application }
 
 /**
  * Assign form-data headers to the axios request config.
@@ -39,9 +39,9 @@ export { Application };
 function formDataInterceptor(config: axios.AxiosRequestConfig): axios.AxiosRequestConfig {
   if (typeof config.data?.getHeaders === 'function') {
     // eslint-disable-next-line no-param-reassign
-    config.headers = Object.assign(config.headers || {}, config.data.getHeaders());
+    config.headers = Object.assign(config.headers || {}, config.data.getHeaders())
   }
-  return config;
+  return config
 }
 
 /**
@@ -55,36 +55,36 @@ async function startServer(app: Application): Promise<RunningServer> {
     return new Promise((resolve, reject) => {
       app.listen({ host: '127.0.0.1', port: 0 }, (error, uri) => {
         if (error) {
-          reject(error);
+          reject(error)
         } else {
           resolve({
             uri,
             async close() {
-              await app.close();
-            },
-          });
+              await app.close()
+            }
+          })
         }
-      });
-    });
+      })
+    })
   }
-  const server = createServer(app instanceof Function ? app : app.callback());
+  const server = createServer(app instanceof Function ? app : app.callback())
   await new Promise<void>((resolve) => {
-    server.listen(undefined, '127.0.0.1', resolve);
-  });
-  const { address, port } = server.address() as AddressInfo;
+    server.listen(undefined, '127.0.0.1', resolve)
+  })
+  const { address, port } = server.address() as AddressInfo
   return {
     uri: `http://${address}:${port}`,
     close: (): Promise<void> =>
       new Promise((resolve, reject) => {
         server.close((error) => {
           if (error) {
-            reject(error);
+            reject(error)
           } else {
-            resolve();
+            resolve()
           }
-        });
-      }),
-  };
+        })
+      })
+  }
 }
 
 /**
@@ -115,18 +115,18 @@ async function startServer(app: Application): Promise<RunningServer> {
  */
 export async function patchInstance(
   instance: axios.AxiosInstance,
-  app: Application,
+  app: Application
 ): Promise<AxiosTestInstance> {
-  const { close, uri } = await startServer(app);
-  const inst = instance as AxiosTestInstance;
-  const { baseURL } = instance.defaults;
-  inst.defaults.baseURL = String(new URL(baseURL || '', uri));
+  const { close, uri } = await startServer(app)
+  const inst = instance as AxiosTestInstance
+  const { baseURL } = instance.defaults
+  inst.defaults.baseURL = String(new URL(baseURL || '', uri))
   inst.close = async (): Promise<void> => {
-    inst.defaults.baseURL = baseURL;
-    await close();
-    inst.close = (): Promise<void> => Promise.resolve();
-  };
-  return inst;
+    inst.defaults.baseURL = baseURL
+    await close()
+    inst.close = (): Promise<void> => Promise.resolve()
+  }
+  return inst
 }
 
 /**
@@ -154,19 +154,19 @@ export async function patchInstance(
  */
 export async function createInstance(
   app: Application,
-  axiosConfig?: axios.AxiosRequestConfig,
+  axiosConfig?: axios.AxiosRequestConfig
 ): Promise<AxiosTestInstance> {
   const instance = await patchInstance(
     // @ts-expect-error https://github.com/axios/axios/pull/5196
     axios.create({
       maxRedirects: 0,
       validateStatus: () => true,
-      ...axiosConfig,
+      ...axiosConfig
     }),
-    app,
-  );
-  instance.interceptors.request.use(formDataInterceptor);
-  return instance;
+    app
+  )
+  instance.interceptors.request.use(formDataInterceptor)
+  return instance
 }
 
 /**
@@ -188,9 +188,9 @@ export async function createInstance(
 export const request: AxiosTestInstance = Object.assign(
   // @ts-expect-error https://github.com/axios/axios/pull/5196
   axios.create({ maxRedirects: 0, validateStatus: () => true }),
-  { close: () => Promise.resolve() },
-);
-request.interceptors.request.use(formDataInterceptor);
+  { close: () => Promise.resolve() }
+)
+request.interceptors.request.use(formDataInterceptor)
 
 /**
  * Close the default axios test instance.
@@ -201,7 +201,7 @@ request.interceptors.request.use(formDataInterceptor);
  * @see request for more details
  */
 export async function closeTestApp(): Promise<void> {
-  await request.close();
+  await request.close()
 }
 
 /**
@@ -212,10 +212,10 @@ export async function closeTestApp(): Promise<void> {
  * @see request for more details
  */
 export async function setTestApp(app: Application): Promise<AxiosTestInstance> {
-  await closeTestApp();
-  return patchInstance(request, app);
+  await closeTestApp()
+  return patchInstance(request, app)
 }
 
 if (typeof afterAll !== 'undefined') {
-  afterAll(closeTestApp);
+  afterAll(closeTestApp)
 }
