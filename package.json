@@ -40,9 +40,6 @@
     "@types/node": "*",
     "axios": "^1.0.0"
   },
-  "engines": {
-    "node": ">=14.0.0"
-  },
   "devDependencies": {
     "@types/jest": "^29.0.0",
     "@types/koa": "^2.0.0",
