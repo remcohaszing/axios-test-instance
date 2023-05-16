@@ -8,6 +8,14 @@
 [![prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://prettier.io)
 [![jest](https://jestjs.io/img/jest-badge.svg)](https://jestjs.io)
 
+## Table of Contents
+
+- [Installation](#installation)
+- [Usage](#usage)
+- [Examples](#examples)
+- [See also](#see-also)
+- [License](#license)
+
 ## Installation
 
 ```sh
