@@ -1,5 +1,8 @@
 /coverage/
 /index.js
 /index.d.ts
+/__tests__/*.js
+/__tests__/*.d.ts
 node_modules/
 *.log
+*.tgz
