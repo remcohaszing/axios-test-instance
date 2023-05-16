@@ -80,7 +80,6 @@ For usages examples, have a look at our test cases:
 - [Fastify example](__tests__/fastify.ts) (See
   [#2](https://github.com/remcohaszing/axios-test-instance/issues/2) for limitations)
 - [HTTP callback example](__tests__/callback.ts)
-- [Form data example](__tests__/form-data.ts)
 - [End to end example](__tests__/e2e.ts)
 
 ## See also

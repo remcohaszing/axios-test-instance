@@ -30,22 +30,6 @@ interface RunningServer {
 export { Application }
 
 /**
- * Assign form-data headers to the axios request config.
- *
- * @param config The incoming axios request config.
- * @returns The patched axios request config.
- */
-function formDataInterceptor(
-  config: axios.InternalAxiosRequestConfig
-): axios.InternalAxiosRequestConfig {
-  if (typeof config.data?.getHeaders === 'function') {
-    // eslint-disable-next-line no-param-reassign
-    config.headers = Object.assign(config.headers || {}, config.data.getHeaders())
-  }
-  return config
-}
-
-/**
  * Start a server for the given application.
  *
  * @param app The application to start a server for.
@@ -153,11 +137,11 @@ export async function patchInstance(
  *   await instance.close();
  * });
  */
-export async function createInstance(
+export function createInstance(
   app: Application,
   axiosConfig?: axios.AxiosRequestConfig
 ): Promise<AxiosTestInstance> {
-  const instance = await patchInstance(
+  return patchInstance(
     axios.create({
       maxRedirects: 0,
       validateStatus: () => true,
@@ -165,8 +149,6 @@ export async function createInstance(
     }),
     app
   )
-  instance.interceptors.request.use(formDataInterceptor)
-  return instance
 }
 
 /**
@@ -189,7 +171,6 @@ export const request: AxiosTestInstance = Object.assign(
   axios.create({ maxRedirects: 0, validateStatus: () => true }),
   { close: () => Promise.resolve() }
 )
-request.interceptors.request.use(formDataInterceptor)
 
 /**
  * Close the default axios test instance.
