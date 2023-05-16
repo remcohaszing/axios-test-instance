@@ -50,7 +50,7 @@ afterAll(async () => {
 ```
 
 Chances are you’re already using an Axios instance in your frontend. In this case, `patchInstance`
-can be used to to patch this instance instead.
+can be used to patch this instance instead.
 
 ```js
 import { patchInstance } from 'axios-test-instance'
