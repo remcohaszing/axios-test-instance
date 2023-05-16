@@ -1,14 +1,14 @@
 import { createServer } from 'node:http'
 import { type AddressInfo } from 'node:net'
 
-import * as axios from 'axios'
+import { type AxiosInstance, type AxiosRequestConfig, create } from 'axios'
 
 import { type Application } from './types.js'
 
 /**
  * An Axios instance that is bound to a test server.
  */
-export interface AxiosTestInstance extends axios.AxiosInstance {
+export interface AxiosTestInstance extends AxiosInstance {
   /**
    * Close the internal http server and restore the original baseURL.
    */
@@ -99,7 +99,7 @@ async function startServer(app: Application): Promise<RunningServer> {
  * });
  */
 export async function patchInstance(
-  instance: axios.AxiosInstance,
+  instance: AxiosInstance,
   app: Application
 ): Promise<AxiosTestInstance> {
   const { close, uri } = await startServer(app)
@@ -139,10 +139,10 @@ export async function patchInstance(
  */
 export function createInstance(
   app: Application,
-  axiosConfig?: axios.AxiosRequestConfig
+  axiosConfig?: AxiosRequestConfig
 ): Promise<AxiosTestInstance> {
   return patchInstance(
-    axios.create({
+    create({
       maxRedirects: 0,
       validateStatus: () => true,
       ...axiosConfig
@@ -168,7 +168,7 @@ export function createInstance(
  * afterAll(closeTestApp);
  */
 export const request: AxiosTestInstance = Object.assign(
-  axios.create({ maxRedirects: 0, validateStatus: () => true }),
+  create({ maxRedirects: 0, validateStatus: () => true }),
   { close: () => Promise.resolve() }
 )
 

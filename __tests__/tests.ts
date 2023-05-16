@@ -1,6 +1,6 @@
 import * as http from 'node:http'
 
-import * as axios from 'axios'
+import { create } from 'axios'
 import { closeTestApp, createInstance, patchInstance } from 'axios-test-instance'
 import * as express from 'express'
 import { type FastifyInstance } from 'fastify'
@@ -42,7 +42,7 @@ it('should be fine to call close twice', async () => {
 })
 
 it('should restore the patched baseURL', async () => {
-  const originalInstance = axios.create({ baseURL: '/test' })
+  const originalInstance = create({ baseURL: '/test' })
   const testInstance = await patchInstance(originalInstance, app)
   expect(testInstance).toBe(originalInstance)
   expect(testInstance.defaults.baseURL).toMatch(/^http:\/\/127.0.0.1:\d+\/test$/)

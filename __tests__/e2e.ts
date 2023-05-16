@@ -1,4 +1,4 @@
-import * as axios from 'axios'
+import { create } from 'axios'
 import { type AxiosTestInstance, patchInstance } from 'axios-test-instance'
 import { json } from 'body-parser'
 import * as express from 'express'
@@ -47,7 +47,7 @@ backend.post<never, TokenResponse, Credentials>('/api/token', (req, res) => {
 
 // ——— Frontend ———
 
-const request = axios.create({ baseURL: '/api' })
+const request = create({ baseURL: '/api' })
 
 /**
  * Authorize the client side default axios instance.
